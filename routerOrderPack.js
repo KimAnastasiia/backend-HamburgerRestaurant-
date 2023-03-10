@@ -25,7 +25,7 @@ orderPack.get("/",(req,res,next)=>{
 
 orderPack.get("/status",(req,res,next)=>{
 
-    mysqlConnection.query('SELECT * FROM  orderpack JOIN orders ON orderpack.id=orders.orderPackId WHERE orderpack.status != "Cancel" AND orderpack.status != "Finished" GROUP BY orders.orderPackId', (err, rows) => {
+    mysqlConnection.query('SELECT * FROM  orderpack JOIN orders ON orderpack.id=orders.orderPackId WHERE orderpack.status != "Cancel" AND orderpack.status != "Finished" GROUP BY orders.orderPackId ORDER BY orderpack.id DESC', (err, rows) => {
 
         if (err){
             res.send({error:err});
