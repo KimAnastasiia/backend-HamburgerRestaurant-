@@ -1,6 +1,10 @@
 const express = require('express')
 const app = express()
 const port = 2000
+
+//
+app.use(express.static('public'));
+
 app.use(express.json())
 var cors = require('cors')
 app.use(cors())

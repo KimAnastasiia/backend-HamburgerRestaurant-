@@ -38,7 +38,33 @@ routerUsers.post('/comments', (req, res) => {
     })
 
 })
+routerUsers.put('/adress', (req, res) => {
 
+    let street = req.body.street
+    let entrance = req.body.entrance
+    let floor = req.body.floor
+    let apartment = req.body.apartment
+    let intercom = req.body.intercom
+
+    let fullAdress= street + entrance + floor + apartment + intercom
+
+    mysqlConnection.query("UPDATE users SET adress='"+fullAdress+"' WHERE id="+req.infoInToken.id+"", (err, rows) => {
+
+        if (err){
+            res.send({error: err});
+            return ;
+        }
+        else{
+        res.send(
+            {
+                messege:"done",
+                rows: rows,
+              
+            })
+        }
+    })
+
+})
 routerUsers.put('/editProfileInfo', (req, res) => {
 
     let colum = req.body.colum
@@ -98,4 +124,7 @@ routerUsers.delete('/:id/:hamburgerId', (req, res) => {
         res.send({messege:"done"})
     }
 )})
+
+
+
 module.exports=routerUsers
