@@ -34,10 +34,23 @@ hamburgers.get("/:id",(req,res,next)=>{
 })
 
 hamburgers.post('/', (req, res) => {
-    let type = req.body.type
+    let type = req.body.name
     let price = req.body.price
     let description = req.body.description
-    // add a new hamburguer in the restuarant
+    let img = req.files.myImage
+    
+
+    if (img != null) {
+
+        img.mv('public/images/' + type + '.png', 
+            function(err) {
+                if (err) {
+                    res.send("Error in upload picture");
+                } 
+            }
+        )
+    }
+
     mysqlConnection.query("INSERT INTO hamburgers ( type, price, description ) VALUES ('"+type+"',"+price+",'"+description+"') ", (err, rows) => {
 
         if (err){
@@ -54,4 +67,5 @@ hamburgers.post('/', (req, res) => {
     })
 
 })
+
 module.exports=hamburgers

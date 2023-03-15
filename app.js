@@ -2,8 +2,14 @@ const express = require('express')
 const app = express()
 const port = 2000
 
-//
+// IMPORTANT create PUBLIC directory
 app.use(express.static('public'));
+
+
+// IMPORTANT for UPLOAD pictures
+var fileUpload = require('express-fileupload');
+app.use(fileUpload());
+
 
 app.use(express.json())
 var cors = require('cors')
