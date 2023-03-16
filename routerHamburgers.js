@@ -34,35 +34,52 @@ hamburgers.get("/:id",(req,res,next)=>{
 })
 
 hamburgers.post('/', (req, res) => {
+
+
+
     let type = req.body.name
     let price = req.body.price
     let description = req.body.description
     let img = req.files.myImage
     
 
-    if (img != null) {
 
-        img.mv('public/images/' + type + '.png', 
-            function(err) {
-                if (err) {
-                    res.send("Error in upload picture");
-                } 
-            }
-        )
-    }
-
-    mysqlConnection.query("INSERT INTO hamburgers ( type, price, description ) VALUES ('"+type+"',"+price+",'"+description+"') ", (err, rows) => {
-
-        if (err){
-            res.send({error: err});
+    mysqlConnection.query("SELECT * FROM hamburgers WHERE type='"+type+"'", (errOne, rowsOne) => {
+        if (errOne){
+            res.send({error: errOne});
             return ;
         }
-        else{
-        res.send(
-            {
-                messege:"done",
-                rows: rows
+        if(rowsOne.length==0){
+            if (img != null) {
+
+                img.mv('public/images/' + type + '.png', 
+                    function(err) {
+                        if (err) {
+                            res.send("Error in upload picture");
+                        } 
+                    }
+                )
+            }
+            mysqlConnection.query("INSERT INTO hamburgers ( type, price, description ) VALUES ('"+type+"',"+price+",'"+description+"') ", (err, rows) => {
+
+                if (err){
+                    res.send({error: err});
+                    return ;
+                }
+                else{
+                res.send(
+                    {
+                        messege:"done",
+                        rows: rows
+                    })
+                }
             })
+        }else{
+            res.send(
+                {
+                    messege: "This hamburger already exists"
+                }
+            )
         }
     })
 
