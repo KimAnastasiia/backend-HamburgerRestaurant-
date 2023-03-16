@@ -5,7 +5,7 @@ const mysqlConnection = require("./mysqlConnection")
 
 routerUsers.get("/profile",(req,res,next)=>{
   
-    mysqlConnection.query("SELECT email, name, surname, admin, country, id, payment, address, points FROM users where id = "+req.infoInToken.id+"", (err, rows) => {
+    mysqlConnection.query("SELECT email, name, surname, admin, country, id, payment, points, street, entrance, floor, apartment, intercom  FROM users where id = "+req.infoInToken.id+"", (err, rows) => {
 
         if (err)
             res.send({error:err});
@@ -46,9 +46,9 @@ routerUsers.put('/adress', (req, res) => {
     let apartment = req.body.apartment
     let intercom = req.body.intercom
 
-    let fullAdress=" street: " + street +" entrance: " + entrance +" floor: "+ floor +" apartment: " + apartment +" intercom: "+ intercom
+    
 
-    mysqlConnection.query("UPDATE users SET address='"+fullAdress+"' WHERE id="+req.infoInToken.id+"", (err, rows) => {
+    mysqlConnection.query("UPDATE users SET street='"+street+ "', entrance='"+entrance+ "', floor='"+floor+ "', apartment='"+apartment+ "', intercom='"+intercom+ "'  WHERE id="+req.infoInToken.id+"", (err, rows) => {
 
         if (err){
             res.send({error: err});
