@@ -128,7 +128,7 @@ order.post('/', (req, res) => {
 order.put("/complete", (req,res,next)=>{
     let orderPackId= req.body.orderPackId
 
-    mysqlConnection.query("UPDATE orders SET finish='done' , orderPackId="+orderPackId+ " WHERE idUser="+req.infoInToken.id+" and orderPackId is null" , (err, rows) => {
+    mysqlConnection.query("UPDATE orders SET finish='done' , orderPackId="+orderPackId+ "  WHERE idUser="+req.infoInToken.id+" and orderPackId is null" , (err, rows) => {
         if (err){
             res.send({error: err});
             return ;
