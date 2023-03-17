@@ -38,17 +38,18 @@ routerUsers.post('/comments', (req, res) => {
     })
 
 })
-routerUsers.put('/adress', (req, res) => {
+routerUsers.put('/address', (req, res) => {
 
     let street = req.body.street
     let entrance = req.body.entrance
     let floor = req.body.floor
     let apartment = req.body.apartment
     let intercom = req.body.intercom
+    let points=req.body.points
 
     
 
-    mysqlConnection.query("UPDATE users SET street='"+street+ "', entrance='"+entrance+ "', floor='"+floor+ "', apartment='"+apartment+ "', intercom='"+intercom+ "'  WHERE id="+req.infoInToken.id+"", (err, rows) => {
+    mysqlConnection.query("UPDATE users SET street='"+street+ "', entrance='"+entrance+ "', floor='"+floor+ "', apartment='"+apartment+ "', intercom='"+intercom+ "', points="+points+ "  WHERE id="+req.infoInToken.id+"", (err, rows) => {
 
         if (err){
             res.send({error: err});
