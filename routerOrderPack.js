@@ -121,4 +121,24 @@ orderPack.put('/', (req, res) => {
     })
 
 })
+
+orderPack.put("/orderDetails", (req,res,next)=>{
+    let call= req.body.call
+    let deliveryDate= req.body.deliveryDate
+    let deliveryTime= req.body.deliveryTime
+    let commentForAdress= req.body.commentForAdress
+    let commentForOrder= req.body.commentForOrder
+    let id= req.body.id
+    mysqlConnection.query("UPDATE orderpack SET telephoneCall="+call+" , deliveryDate='"+deliveryDate+"' , deliveryTime='"+deliveryTime+"' , commentForAdress= '"+commentForAdress+"' , commentForOrder= '"+commentForOrder+"'  WHERE userId="+req.infoInToken.id+" and id ="+id , (err, rows) => {
+        if (err){
+            res.send({error: err});
+            return ;
+        }
+        else{
+            console.log(rows)
+        }
+        res.send({messege:"done"})
+    })
+})
+
 module.exports=orderPack
