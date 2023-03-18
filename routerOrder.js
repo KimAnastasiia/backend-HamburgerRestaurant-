@@ -78,14 +78,34 @@ order.get("/details/:doneOrdersDetailsId",(req,res,next)=>{
     JOIN hamburgers
     JOIN orderpack
     ON orders.hamburgerId=hamburgers.Id AND orders.orderPackId = orderpack.id
-    WHERE orderPackId=`+doneOrdersDetailsId, (err, rows) => {
+    WHERE orderPackId=`+doneOrdersDetailsId, (errOrderpack, rowsOrderpack) => {
 
-        if (err)
-            res.send({error:err});
-        else
-            console.log(rows);
+        if (errOrderpack)
+            res.send({error:errOrderpack});
+        else{
+            //res.send(rowsOne)
 
-        res.send(rows)
+            mysqlConnection.query(`SELECT users.id, users.name, users.payment, users.email, users.surname, users.country, users.street, users.floor, users.entrance, users.apartment
+                from orderpack
+                JOIN users
+                ON orderpack.userId=users.id
+                WHERE orderpack.id=`+doneOrdersDetailsId+" and users.id="+req.infoInToken.id , (errUser, rowsUser) => {
+                if (errUser){
+                    res.send({error: errUser});
+                    return ;
+                }
+                res.send(
+                    {
+                        messege:"done",
+                        orderpack:rowsOrderpack,
+                        user: rowsUser
+                    }
+                )
+            })
+        }
+          
+
+        
     })
 })
 order.get("/:id",(req,res,next)=>{

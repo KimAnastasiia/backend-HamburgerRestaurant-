@@ -91,7 +91,8 @@ orderPack.put('/', (req, res) => {
                         res.send({error: err2});
                         return ;
                     }
-                    mysqlConnection.query("UPDATE users set points= points + "+rows2[0].points+" where id="+req.infoInToken.id, (err3, rows3) => {
+
+                    mysqlConnection.query("UPDATE users set points= points + "+rows2[0].points+" where id="+rows2[0].userId, (err3, rows3) => {
                         if (err3){
                             res.send({error: err3});
                             return ;
