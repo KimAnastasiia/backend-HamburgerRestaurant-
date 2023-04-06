@@ -3,23 +3,8 @@ const jwt = require("jsonwebtoken");
 const order = express.Router();
 const mysql = require('mysql');
 
+const mysqlConnection = require("./mysqlConnection")
 
-
-const mysqlConnection = mysql.createConnection({
-    host: '127.0.0.1',
-    user: 'root',
-    password: '1234',
-    database: 'restaurante',
-    multipleStatements: true
-});
-
-mysqlConnection.connect((err)=> {
-    if(err){
-        console.log('Error ' +err);
-    } else{
-        console.log('Connected to database')
-    }
-});
 order.get("/",(req,res,next)=>{
     
 

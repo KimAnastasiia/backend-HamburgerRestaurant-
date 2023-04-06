@@ -16,11 +16,14 @@ routerLogin.get("/",(req,res,next)=>{
 
     mysqlConnection.query("SELECT email FROM users where email = '"+email+"'", (err, rows) => {
         if (rows.length>=1){
-            res.send({error:"This email already exist"});}
-        else{
-        res.send(rows)}
+            res.send({error: "This email already exist"});
+            return
+        }else{
+            res.send(rows)
+        }
     })
 })
+
 routerLogin.post("/create-account",(req,res,next)=>{
     let cipher = crypto.createCipher(algorithm, keyEncrypt);
     let email = req.body.email
@@ -32,10 +35,10 @@ routerLogin.post("/create-account",(req,res,next)=>{
     let payment =  req.body.payment
     
    
-    mysqlConnection.query("INSERT INTO users ( email, password, name, surname, country, payment  ) VALUES ('"+email+"','"+passwordEncript+"','"+name+"','"+surname+"','"+country+"','"+payment+"') ", (err, rows) => {
+    mysqlConnection.query("INSERT INTO users ( email, password, name, surname, country, payment  ) VALUES ('"+email+"','"+passwordEncript+"','"+name+"','"+surname+"','"+country+"','"+payment+"') ", (err2, rows2) => {
 
-        if (err){
-            res.send({error: err});
+        if (err2){
+            res.send({error: err2});
             return ;
         }
         mysqlConnection.query("SELECT * FROM users where email='"+email+"' and password='"+passwordEncript+"'", (err, rows) => {
@@ -74,8 +77,7 @@ routerLogin.post("/create-account",(req,res,next)=>{
                 let apiKey = jwt.sign(
                     { 
                         email: email,
-                        id: rows[0].id,
-                        
+                        id: rows[0].id,   
                     },
                     "secret");
     
@@ -95,8 +97,7 @@ routerLogin.post("/create-account",(req,res,next)=>{
                 return
             }
     
-        }
-        )
+        })
     })
 
 

@@ -40,7 +40,7 @@ app.use(["/order","/orderPack","/users","/hamburguers/comments/" ] ,(req,res,nex
     req.infoInToken = infoInToken;
 
     next()
-  })
+})
 
 app.use("/hamburgers",routerHamburgers)
 app.use("/order", routerOrders )

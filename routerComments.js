@@ -14,7 +14,7 @@ mysqlConnection.connect((err)=> {
 comments.get("/",(req,res,next)=>{
     
 
-    mysqlConnection.query(`SELECT comments.userId, users.name, comments.comment,comments.hamburgerId, comments.date, comments.id
+    mysqlConnection.query(`SELECT comments.userId, users.name as userName, comments.comment,comments.hamburgerId, comments.date, comments.id
     FROM comments
     JOIN users
     ON comments.userId=users.id`, (err, rows) => {
