@@ -89,7 +89,7 @@ routerUsers.put('/editProfileInfo', (req, res) => {
     })
 
 })
-routerUsers.put('/', (req, res) => {
+routerUsers.put('/:id', (req, res) => {
 
     let hamburgerId = req.body.hamburgerId
     let comment = req.body.comment
